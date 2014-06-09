@@ -42,7 +42,7 @@ main :: IO ()
 main = print =<< generateS3URL credentials request
   where
      credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
-     request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- three seconds until expired
+     request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- 3 secs until expired
 ```
 ### Result:
 ```haskell
