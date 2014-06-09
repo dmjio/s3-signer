@@ -2,11 +2,10 @@
 {-# LANGUAGE RecordWildCards   #-}
 
 module Network.S3
-    ( generateS3URL
-    , S3Creds (..)
-    , S3RequestType (S3GET, S3PUT)
-    , S3URL (..)
-    , S3Request (..)
+    ( -- * Create pre-signed AWS S3 URL
+      generateS3URL
+      -- * Types
+    , module Network.S3.Types
     ) where
 
 import qualified Data.Text.Lazy          as T
@@ -17,15 +16,18 @@ import           Network.S3.Time
 import           Network.S3.Types
 import           Network.S3.URL
 
--- | Signer
-generateS3URL :: S3Creds -> S3Request -> IO S3URL
-generateS3URL S3Creds{..} S3Request{..} = do
+-- | This documentation includes two blocks of code:
+--
+-- > f x = x + x
+-- >
+-- >  g x = x * 42
+generateS3URL :: S3Keys -> S3Request -> IO S3URL
+generateS3URL S3Keys{..} S3Request{..} = do
   time <- getExpirationTimeStamp secondsToExpire
-  let url = case requestType of
+  let url = case s3method of
               S3GET -> getURL bucketName objectName time
               S3PUT -> putURL bucketName objectName time
-      req = T.decodeUtf8 $ s3URL bucketName objectName publicKey time (sign secretKey url)
+      req = T.decodeUtf8 $ s3URL bucketName objectName publicKey time
+               (sign secretKey url)
   return $ S3URL (T.toStrict req)
-
-
 

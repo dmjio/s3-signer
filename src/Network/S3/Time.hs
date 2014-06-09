@@ -4,8 +4,8 @@ module Network.S3.Time
     ) where
 
 import           Control.Applicative        ((<$>))
-import           Data.ByteString.Lazy.Char8 (ByteString)
 import qualified Data.ByteString.Lazy.Char8 as BL8
+import           Data.ByteString.Lazy.UTF8  (ByteString)
 import           Data.Time                  (UTCTime (..), getCurrentTime)
 import           Data.Time.Clock.POSIX      (utcTimeToPOSIXSeconds)
 
