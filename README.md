@@ -8,6 +8,23 @@
 
 [S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
 
+### Implementation
+```shell
+Signature = URL-Encode( Base64( HMAC-SHA1( YourSecretAccessKeyID,UTF-8-Encoding-Of( StringToSign ) ) ) );
+```
+```haskell
+module Network.S3.Sign  ( sign ) where
+
+import qualified Data.ByteString.Base64.Lazy as B64
+import           Data.ByteString.Lazy.UTF8   (ByteString)
+import           Data.Digest.Pure.SHA        (bytestringDigest, hmacSha1)
+import           Network.S3.Util             (encodeURL)
+
+-- | SHA1 Encrypted Signature
+sign :: ByteString -> ByteString -> ByteString
+sign secretKey url = encodeURL . B64.encode . bytestringDigest $ hmacSha1 secretKey url
+```
+
 ### Use case:
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
@@ -42,3 +59,5 @@ getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
         credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
         request     = S3Request S3GET "bucket-name" "file-name.extension" 3
 ```
+### Direct to S3 AJAX Uploads
+... examples in the works
