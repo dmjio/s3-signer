@@ -1,7 +1,7 @@
 name:                s3-signer
 version:             0.1.0.0
 synopsis:            Making it easy and resource efficient to work with Amazon s3
-description:         s3-signer creates cryptographically secure Amazon S3 URLs that expire within a user-defined period. It allows uploading and downloading of content from Amazon S3. Great for AJAX direct-to-s3 uploads and secure downloads. Web framework agnostic with minimal dependencies.
+description:         s3-signer creates cryptographically secure Amazon S3 URLs that expire within a user-defined period. It allows uploading and downloading of content from Amazon S3. Ideal for AJAX direct-to-s3 uploads and secure downloads. Web framework agnostic with minimal dependencies.
 license:             BSD3
 license-file:        LICENSE
 author:              David Johnson
