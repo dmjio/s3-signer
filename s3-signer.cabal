@@ -16,7 +16,6 @@ library
                      , bytestring
                      , http-types
                      , SHA
-                     , text
                      , time
                      , utf8-string
   hs-source-dirs:      src

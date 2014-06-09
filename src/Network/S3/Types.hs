@@ -8,12 +8,11 @@ module Network.S3.Types
     ) where
 
 import           Data.ByteString.Lazy.UTF8 (ByteString)
-import           Data.Text                 (Text)
 import           GHC.Generics              (Generic)
 
 -- | Result
 newtype S3URL = S3URL {
-      signedRequest :: Text -- ^ The resultant URL
+      signedRequest :: ByteString -- ^ The resultant URL
     } deriving (Generic, Show)
 
 data S3Keys = S3Keys {
