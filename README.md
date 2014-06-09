@@ -8,7 +8,7 @@
 
 [S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
 
-### Use case
+### Use case:
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -22,11 +22,24 @@ main = print =<< generateS3URL credentials request
      credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
      request     = S3Request S3GET "bucket-name" "file-name.extension" 3
 ```
-
+### Result:
 ```haskell
--- result: S3URL {
+S3URL {
       signedRequest =
          "https://bucket-name.s3.amazonaws.com/file-name.extension?AWSAccessKeyId=<public-key-goes-here>&Expires=1402346638&Signature=1XraY%2Bhp117I5CTKNKPc6%2BiihRA%3D"
      }
 ```
 
+### Snap integration - downloads
+```haskell
+-- Quick and dirty example
+getDownloadUrl :: Handler App (AuthManager App) ()
+getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
+  where handleDownload uid = do
+          Just fileName <- getParam "fileName" 
+          S3URL url <- liftIO $ makeS3URL "myBucket" (fileName <> ".txt") 10
+          redirect' (encodeUtf8 url) 302
+        makeS3URL = generateS3URL credentials request
+      credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
+          request = S3Request S3GET "bucket-name" "file-name.extension" 3
+```
