@@ -36,7 +36,6 @@ S3URL {
 getDownloadUrl :: Handler App (AuthManager App) ()
 getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
   where handleDownload _ = do
-          Just fileName <- getParam "fileName" 
           S3URL url <- liftIO makeS3URL 
           redirect' (encodeUtf8 url) 302
         makeS3URL   = generateS3URL credentials request
