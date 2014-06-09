@@ -35,11 +35,11 @@ S3URL {
 -- Quick and dirty example
 getDownloadUrl :: Handler App (AuthManager App) ()
 getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
-  where handleDownload uid = do
+  where handleDownload _ = do
           Just fileName <- getParam "fileName" 
           S3URL url <- liftIO $ makeS3URL "myBucket" (fileName <> ".txt") 10
           redirect' (encodeUtf8 url) 302
-        makeS3URL = generateS3URL credentials request
-      credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
-          request = S3Request S3GET "bucket-name" "file-name.extension" 3
+        makeS3URL   = generateS3URL credentials request
+        credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
+        request     = S3Request S3GET "bucket-name" "file-name.extension" 3
 ```
