@@ -9,11 +9,14 @@
 [S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
 
 ### Implementation
+
 > AWS Specification
+
 ```shell
 Signature = URL-Encode( Base64( HMAC-SHA1( YourSecretAccessKeyID,UTF-8-Encoding-Of( StringToSign ) ) ) );
 ```
 > Haskell Implementation
+
 ```haskell
 module Network.S3.Sign  ( sign ) where
 
