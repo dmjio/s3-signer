@@ -1,0 +1,31 @@
+name:                s3-signer
+version:             0.1.0.0
+synopsis:            Making it easy and resource efficient to work with Amazon s3
+description:         s3-signer creates cryptographically secure Amazon S3 URLs that expire within a user-defined period. It allows uploading and downloading of content from Amazon S3. Great for AJAX direct-to-s3 uploads and secure downloads. Web framework agnostic with minimal dependencies.
+license:             BSD3
+license-file:        LICENSE
+author:              David Johnson
+maintainer:          djohnson.m@gmail.com
+category:            Network
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  build-depends:       base >=4.7 && <4.8
+                     , base64-bytestring
+                     , bytestring
+                     , http-types
+                     , SHA
+                     , text
+                     , time
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:        -Wall
+  exposed-modules:     Network.S3
+                     , Network.S3.Types
+  other-modules:       Network.S3.Sign
+                     , Network.S3.Time
+                     , Network.S3.URL
+                     , Network.S3.Util
+
+  
