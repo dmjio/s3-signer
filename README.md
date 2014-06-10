@@ -1,5 +1,10 @@
 s3-signer
 ======
+s3-signer is intended as an aid to building secure cloud-based services with
+AWS. This library generates cryptographically secure URL's that
+expire at a user-defined interval. These URLs can be used to offload
+the process of uploading an downloading large resources. 
+
 ### Features
  - Minimal depedencies
  - Web Framework agnostic
@@ -27,7 +32,7 @@ import qualified Data.ByteString.Base64 as B64
 import           Data.ByteString.UTF8   (ByteString)
 import           Network.HTTP.Types.URI (urlEncode)
 
--- | SHA1 Encrypted Signature
+-- | HMAC-SHA1 Encrypted Signature
 sign :: ByteString -> ByteString -> ByteString
 sign secretKey url = urlEncode True . B64.encode $ hmac hash 64 secretKey url
 ```
@@ -74,6 +79,7 @@ downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
 ```
 ### Direct to S3 AJAX Uploads
    - Configure S3 Bucket CORS Policy settings
+   - [CORS Docs](http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html#how-do-i-enable-cors)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -82,7 +88,7 @@ downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
         <AllowedOrigin>https://my-url-goes-here.com</AllowedOrigin>
         <AllowedMethod>PUT</AllowedMethod>
         <AllowedHeader>*</AllowedHeader>
-        </CORSRule>
+    </CORSRule>
 </CORSConfiguration>
 ```
    - Retrieve PUT Request URL via AJAX 
@@ -104,13 +110,12 @@ getUploadURL = method POST $ currentUserId >>= maybe the404 handleDownload
           Just fileId <- getParam "fileId"
           writeJSON =<< liftIO (makeS3URL fileId)
 ```
-   - Retrieve URL on client and Create XHR object
    - Embed FileReader blob data to request
    - Send upload request
 
 ```javascript
 var xhr = new XMLHttpRequest();
-xhr.open('PUT', url /* s3-URL generated from server */);
+xhr.open('PUT', url /* S3-URL generated from server */);
 xhr.setRequestHeader('Content-Type', 'application/zip'); /* whatever http-content-type makes sense */
 xhr.setRequestHeader('x-amz-acl', 'public-read');
 
@@ -139,18 +144,19 @@ xhr.send(file); // file here is a blob from the file reader API
 ```
 ### File Reader Info
 [How to read file data from the browser](https://developer.mozilla.org/en-US/docs/Web/API/FileReader)
----
+
 ### Troubleshoooting
-  -- Why do I keep getting 403 forbidden when I attempt to upload or  download from a pre-signed URL?
-    - Ask yourself the following:
-      - Are my keys specified correctly?
-      - Did I configure the CORS settings on my bucket properly?
-  -- Why are my URLs expiring faster than the specified time?
-    - Ask yourself the following:
-      - Is my servers clock synchronized with AWS? (See wiki for NTP info)
+- Why do I keep getting 403 forbidden when I attempt to upload or  download from a pre-signed URL?
+..- Ask yourself the following:
+....- Are my keys specified correctly?
+....- Did I configure the CORS settings on my bucket properly?
+- Why are my URLs expiring faster than the specified time?
+..- Ask yourself the following:
+....- Is my servers clock synchronized with AWS? (See wiki for NTP info)
+
 ### FAQ
-  -- Why didn't you use HMAC-SHA256?
-    - It's 30% slower, and no less secure than HMAC-SHA1
+- Why didn't you use HMAC-SHA256?
+..- It's 30% slower, and no less secure than HMAC-SHA1
   
 
 
