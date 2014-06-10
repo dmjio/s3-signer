@@ -158,7 +158,11 @@ xhr.send(file); // file here is a blob from the file reader API
 
 ### FAQ
 - Why didn't you use HMAC-SHA256?
-  * It's 30% slower, and no more secure than HMAC-SHA1
+  * It's 30% slower, and for all intents and purposes no more secure
+    than HMAC-SHA1 (no known vulnerabilities exist for it, to my knowledge). Plain
+    SHA1 is a different story. Collisions can be found, but there is
+    no know way to apply those to HMAC-SHA1. 
+
   
 
 
