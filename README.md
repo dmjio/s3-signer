@@ -57,14 +57,20 @@ S3URL {
 ### Snap integration - Downloads
 ```haskell
 -- Quick and dirty example
-getDownloadUrl :: Handler App (AuthManager App) ()
-getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
+type FileID = ByteString
+
+makeS3URL :: FileID -> IO S3URL
+makeS3URL fileId = generateS3URL credentials request
+  where
+    credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
+    request     = S3Request S3GET "bucket-name" (fileId <> ".zip") 3 
+
+downloadFile :: Handler App (AuthManager App) ()
+downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
   where handleDownload _ = do
-          S3URL url <- liftIO makeS3URL 
+          Just fileId <- getParam "fileId"
+          S3URL url <- liftIO $ makeS3URL fileId
           redirect' url 302
-        makeS3URL   = generateS3URL credentials request
-        credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
-        request     = S3Request S3GET "bucket-name" "file-name.extension" 3
 ```
 ### Direct to S3 AJAX Uploads
 ... examples in the works
