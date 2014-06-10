@@ -10,6 +10,7 @@ webserver to focus on other things.
  - Minimal depedencies
  - Web framework agnostic
  - Reduced web server load
+ - Simple API
  - Ideal for AJAX direct-to-s3 upload scenarios
 
 ### Documentation
