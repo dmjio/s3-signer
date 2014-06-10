@@ -6,7 +6,7 @@
  - Reduced Web Server load
  - Great for AJAX direct-to-s3 upload scenarios
 
-### Documentation:
+### Documentation
 [S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
 
 ### Implementation
@@ -32,7 +32,7 @@ sign :: ByteString -> ByteString -> ByteString
 sign secretKey url = urlEncode True . B64.encode $ hmac hash 64 secretKey url
 ```
 
-### Use Case:
+### Use Case
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -46,7 +46,7 @@ main = print =<< generateS3URL credentials request
      credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
      request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- 3 secs until expired
 ```
-### Result:
+### Result
 ```haskell
 S3URL {
       signedRequest =
@@ -54,7 +54,7 @@ S3URL {
      }
 ```
 
-### Snap integration - downloads
+### Snap integration - Downloads
 ```haskell
 -- Quick and dirty example
 getDownloadUrl :: Handler App (AuthManager App) ()
