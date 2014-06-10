@@ -165,10 +165,11 @@ xhr.send(file); // file here is a blob from the file reader API
     Keep praying P ≠ NP.
   * For the curious [SHA-1 is broken](https://www.schneier.com/blog/archives/2005/02/sha1_broken.html)
   * For the insecure (Scheiner quote from same article above)
-    > This attack builds on previous attacks on SHA-0 and SHA-1, and is
-    > a major, major cryptanalytic result. It pretty much puts a bullet
-    > into SHA-1 as a hash function for digital signatures (although it
-    > **doesn't** **affect** applications such as **HMAC** where collisions aren't important).
+
+> This attack builds on previous attacks on SHA-0 and SHA-1, and is
+> a major, major cryptanalytic result. It pretty much puts a bullet
+> into SHA-1 as a hash function for digital signatures (although it
+> **doesn't** **affect** applications such as **HMAC** where collisions aren't important).
 
   
 
