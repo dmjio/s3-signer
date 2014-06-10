@@ -2,8 +2,8 @@ module Network.S3.Sign  ( sign ) where
 
 import           Crypto.Hash.SHA1       (hash)
 import           Crypto.MAC.HMAC        (hmac)
-import           Data.ByteString        (ByteString)
 import qualified Data.ByteString.Base64 as B64
+import           Data.ByteString.UTF8   (ByteString)
 import           Network.HTTP.Types.URI (urlEncode)
 
 -- | SHA1 Encrypted Signature

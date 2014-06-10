@@ -7,8 +7,8 @@ module Network.S3.Types
     , S3Request (..)
     ) where
 
-import           Data.ByteString (ByteString)
-import           GHC.Generics    (Generic)
+import           Data.ByteString.UTF8 (ByteString)
+import           GHC.Generics         (Generic)
 
 -- | Result
 newtype S3URL = S3URL {

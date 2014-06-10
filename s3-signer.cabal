@@ -35,7 +35,7 @@ extra-source-files:  README.md
 library
   build-depends:       base >=4.7 && <4.8
                      , base64-bytestring
-                     , bytestring
+                     , utf8-string
                      , http-types
                      , cryptohash
                      , time
@@ -47,7 +47,6 @@ library
   other-modules:       Network.S3.Sign
                      , Network.S3.Time
                      , Network.S3.URL
-                     , Network.S3.Util
 
 source-repository head
   type:     git
