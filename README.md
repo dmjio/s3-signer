@@ -6,7 +6,7 @@
  - Reduced Web Server load
  - Great for AJAX direct-to-s3 upload scenarios
 
-[S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
+Documentation: [S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
 
 ### Implementation
 
@@ -20,17 +20,18 @@ Signature = URL-Encode( Base64( HMAC-SHA1( YourSecretAccessKeyID,UTF-8-Encoding-
 ```haskell
 module Network.S3.Sign  ( sign ) where
 
-import qualified Data.ByteString.Base64.Lazy as B64
-import           Data.ByteString.Lazy.UTF8   (ByteString)
-import           Data.Digest.Pure.SHA        (bytestringDigest, hmacSha1)
-import           Network.S3.Util             (encodeURL)
+import           Crypto.Hash.SHA1       (hash)
+import           Crypto.MAC.HMAC        (hmac)
+import qualified Data.ByteString.Base64 as B64
+import           Data.ByteString.UTF8   (ByteString)
+import           Network.HTTP.Types.URI (urlEncode)
 
 -- | SHA1 Encrypted Signature
 sign :: ByteString -> ByteString -> ByteString
-sign secretKey url = encodeURL . B64.encode . bytestringDigest $ hmacSha1 secretKey url
+sign secretKey url = urlEncode True . B64.encode $ hmac hash 64 secretKey url
 ```
 
-### Use case:
+### Use Case:
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -59,7 +60,7 @@ getDownloadUrl :: Handler App (AuthManager App) ()
 getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
   where handleDownload _ = do
           S3URL url <- liftIO makeS3URL 
-          redirect' (encodeUtf8 url) 302
+          redirect' url 302
         makeS3URL   = generateS3URL credentials request
         credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
         request     = S3Request S3GET "bucket-name" "file-name.extension" 3
