@@ -43,7 +43,7 @@ import           Network.S3
 main :: IO ()
 main = print =<< generateS3URL credentials request
   where
-     credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
+     credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
      request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- 3 secs until expired
 ```
 ### Result
@@ -63,7 +63,7 @@ getDownloadUrl = method POST $ currentUserId >>= maybe the404 handleDownload
           S3URL url <- liftIO makeS3URL 
           redirect' url 302
         makeS3URL   = generateS3URL credentials request
-        credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
+        credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
         request     = S3Request S3GET "bucket-name" "file-name.extension" 3
 ```
 ### Direct to S3 AJAX Uploads
