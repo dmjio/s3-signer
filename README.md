@@ -105,13 +105,11 @@ makeS3URL fileId = generateS3URL credentials request
     credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
     request     = S3Request S3PUT "bucket-name" (fileId <> ".zip") 3 
 
-instance ToJSON S3URL
-
 getUploadURL :: Handler App (AuthManager App) ()
 getUploadURL = method POST $ currentUserId >>= maybe the404 handleDownload
   where handleDownload _ = do
           Just fileId <- getParam "fileId"
-          writeJSON =<< liftIO (makeS3URL fileId)
+          writeJSON =<< Data.Text.Encoding.decodeUtf8 <$> liftIO (makeS3URL fileId)
 ```
    - Embed FileReader blob data to request
    - Send upload request
