@@ -1,9 +1,9 @@
 s3-signer
 ======
 s3-signer is intended to be an aid in building secure cloud-based services with
-AWS. This library generates cryptographically secure URL's that
+AWS. This library generates cryptographically secure URLs that
 expire at a user-defined interval. These URLs can be used to offload
-the process of uploading an downloading large files, freeing your
+the process of uploading and downloading large files, freeing your
 webserver to focus on other things. 
 
 ### Features
@@ -151,6 +151,7 @@ xhr.send(file); // file here is a blob from the file reader API
   * Ask yourself the following:
     - Are my keys specified correctly?
     - Did I configure the CORS settings on my bucket properly?
+    - Still trouble? [Make an issue](https://github.com/dmjio/s3-signer/issues)
 - Why are my URLs expiring faster than the specified time?
   * Ask yourself the following:
     - Is my server's clock synchronized with AWS? [See wiki for NTP info](https://github.com/dmjio/s3-signer/wiki/If-URLs-expire-too-quickly)
