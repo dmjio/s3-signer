@@ -3,14 +3,14 @@ module Network.S3.Time
     , utcTimeToEpochTime
     ) where
 
-import           Control.Applicative        ((<$>))
-import           Data.ByteString.Lazy.Char8 (ByteString)
-import qualified Data.ByteString.Lazy.Char8 as BL8
-import           Data.Time                  (UTCTime (..), getCurrentTime)
-import           Data.Time.Clock.POSIX      (utcTimeToPOSIXSeconds)
+import           Control.Applicative   ((<$>))
+import           Data.ByteString       (ByteString)
+import           Data.ByteString.Char8 (pack)
+import           Data.Time             (UTCTime (..), getCurrentTime)
+import           Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
 getExpirationTimeStamp :: Integer -> IO ByteString
-getExpirationTimeStamp secs = BL8.pack . show . (+secs) . utcTimeToEpochTime <$> getCurrentTime
+getExpirationTimeStamp secs = pack . show . (+secs) . utcTimeToEpochTime <$> getCurrentTime
 
 utcTimeToEpochTime :: UTCTime -> Integer
 utcTimeToEpochTime = fromIntegral . toSecs

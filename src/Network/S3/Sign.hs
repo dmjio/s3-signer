@@ -1,10 +1,11 @@
 module Network.S3.Sign  ( sign ) where
 
-import qualified Data.ByteString.Base64.Lazy as B64
-import           Data.ByteString.Lazy.Char8  (ByteString)
-import           Data.Digest.Pure.SHA        (bytestringDigest, hmacSha1)
-import           Network.S3.Util             (encodeURL)
+import           Crypto.Hash.SHA1       (hash)
+import           Crypto.MAC.HMAC        (hmac)
+import           Data.ByteString        (ByteString)
+import qualified Data.ByteString.Base64 as B64
+import           Network.HTTP.Types.URI (urlEncode)
 
 -- | SHA1 Encrypted Signature
 sign :: ByteString -> ByteString -> ByteString
-sign secretKey url = encodeURL . B64.encode . bytestringDigest $ hmacSha1 secretKey url
+sign secretKey url = urlEncode True . B64.encode $ hmac hash 64 secretKey url
