@@ -9,7 +9,7 @@ webserver to focus on other things.
 ### Features
  - Minimal depedencies
  - Web framework agnostic
- - Reduced web server load
+ - Reduces web server load
  - Simple API
  - Ideal for AJAX direct-to-s3 upload scenarios
 
@@ -158,7 +158,7 @@ xhr.send(file); // file here is a blob from the file reader API
 
 ### FAQ
 - Why didn't you use HMAC-SHA256?
-  * It's 30% slower, and no less secure than HMAC-SHA1
+  * It's 30% slower, and no more secure than HMAC-SHA1
   
 
 
