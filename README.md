@@ -73,8 +73,9 @@ makeS3URL fileId = generateS3URL credentials request
 
 downloadFile :: Handler App (AuthManager App) ()
 downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
-  where handleDownload _ = do
+  where handleDownload uid = do
           Just fileId <- getParam "fileId"
+          -- Ensure file being requested belongs to user else 403...
           S3URL url <- liftIO $ makeS3URL fileId
           redirect' url 302
 ```
