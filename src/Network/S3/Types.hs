@@ -10,9 +10,8 @@ module Network.S3.Types
 import           Data.ByteString.UTF8 (ByteString)
 import           GHC.Generics         (Generic)
 
--- | Result
 newtype S3URL = S3URL {
-      signedRequest :: ByteString -- ^ The resultant URL
+      signedRequest :: ByteString -- ^ Generated URL
     } deriving (Generic, Show)
 
 data S3Keys = S3Keys {
@@ -28,5 +27,5 @@ data S3Request = S3Request {
       s3method        :: S3Method -- ^ Type of HTTP Method
     , bucketName      :: ByteString -- ^ Name of Amazon S3 Bucket
     , objectName      :: ByteString -- ^ Name of Amazon S3 File
-    , secondsToExpire :: Integer -- ^ Each whole number is a second
+    , secondsToExpire :: Integer -- ^ Number of seconds until expiration
     } deriving (Generic, Show)
