@@ -1,5 +1,5 @@
-## s3-signer
-
+s3-signer
+======
 ### Features
  - Minimal depedencies
  - Web Framework agnostic
@@ -85,7 +85,7 @@ downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
         </CORSRule>
 </CORSConfiguration>
 ```
-   - Retrieve PUT Request URL via AJAX (see above code)
+   - Retrieve PUT Request URL via AJAX 
 
 ```haskell
 type FileID = ByteString
@@ -105,7 +105,7 @@ getUploadURL = method POST $ currentUserId >>= maybe the404 handleDownload
           writeJSON =<< liftIO (makeS3URL fileId)
 ```
    - Retrieve URL on client and Create XHR object
-   - Embed file data
+   - Embed FileReader blob data to request
    - Send upload request
 
 ```javascript
@@ -136,7 +136,21 @@ xhr.upload.addEventListener("error", function(evt) {
 
 /* Commence upload */
 xhr.send(file); // file here is a blob from the file reader API
-
--- https://developer.mozilla.org/en-US/docs/Web/API/FileReader
 ```
+### File Reader Info
+[How to read file data from the browser](https://developer.mozilla.org/en-US/docs/Web/API/FileReader)
+---
+### Troubleshoooting
+  -- Why do I keep getting 403 forbidden when I attempt to upload or  download from a pre-signed URL?
+    - Ask yourself the following:
+      - Are my keys specified correctly?
+      - Did I configure the CORS settings on my bucket properly?
+  -- Why are my URLs expiring faster than the specified time?
+    - Ask yourself the following:
+      - Is my servers clock synchronized with AWS? (See wiki for NTP info)
+### FAQ
+  -- Why didn't you use HMAC-SHA256?
+    - It's 30% slower, and no less secure than HMAC-SHA1
+  
+
 
