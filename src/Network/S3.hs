@@ -15,6 +15,8 @@ import           Network.S3.URL
 
 -- | Generates a cryptographically secure URL that expires within a
 -- user defined period
+--
+-- See README for use cases and examples: <https://github.com/dmjio/s3-signer/blob/master/README.md>
 generateS3URL :: S3Keys -> S3Request -> IO S3URL
 generateS3URL S3Keys{..} S3Request{..} = do
   time <- getExpirationTimeStamp secondsToExpire

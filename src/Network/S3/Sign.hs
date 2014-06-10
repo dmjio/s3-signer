@@ -1,7 +1,7 @@
 module Network.S3.Sign  ( sign ) where
 
 import qualified Data.ByteString.Base64.Lazy as B64
-import           Data.ByteString.Lazy.UTF8   (ByteString)
+import           Data.ByteString.Lazy.Char8  (ByteString)
 import           Data.Digest.Pure.SHA        (bytestringDigest, hmacSha1)
 import           Network.S3.Util             (encodeURL)
 

@@ -1,14 +1,36 @@
 name:                s3-signer
 version:             0.1.0.0
-synopsis:            Making it easy and resource efficient to work with Amazon s3
-description:         s3-signer creates cryptographically secure Amazon S3 URLs that expire within a user-defined period. It allows uploading and downloading of content from Amazon S3. Ideal for AJAX direct-to-s3 uploads and secure downloads. Web framework agnostic with minimal dependencies.
+homepage:            https://github.com/dmjio/s3-signer
+bug-reports:         https://github.com/dmjio/s3-signer/issues
+synopsis:            Pre-signed Amazon S3 URLs
+description:         
+        .
+        s3-signer creates cryptographically secure Amazon S3 URLs that expire within a user-defined         
+        period. It allows uploading and downloading of content from Amazon S3. 
+        Ideal for AJAX direct-to-s3 uploads via CORS and secure downloads. 
+        Web framework agnostic with minimal dependencies.
+        .
+        > module Main where
+        > import           Network.S3
+        > main :: IO ()
+        > main = print =<< generateS3URL credentials request
+        >   where
+        >     credentials = S3Creds "<public-key-goes-here>" "<secret-key-goes-here>"
+        >     request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- three seconds until expiration
+        . 
+        Result
+        .
+        > S3URL "https://bucket-name.s3.amazonaws.com/file-name.extension?AWSAccessKeyId=<public-key-goes-here>&Expires=1402346638&Signature=1XraY%2Bhp117I5CTKNKPc6%2BiihRA%3D"
+
 license:             BSD3
 license-file:        LICENSE
-author:              David Johnson
-maintainer:          djohnson.m@gmail.com
+author:              David Johnson <djohnson.m@gmail.com>
+maintainer:          David Johnson <djohnson.m@gmail.com>
+copyright:           2014 David Johnson
 category:            Network
 build-type:          Simple
-cabal-version:       >=1.10
+cabal-version:       >=1.18
+extra-source-files:  README.md        
 
 library
   build-depends:       base >=4.7 && <4.8
@@ -17,7 +39,6 @@ library
                      , http-types
                      , SHA
                      , time
-                     , utf8-string
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:        -Wall
@@ -28,4 +49,6 @@ library
                      , Network.S3.URL
                      , Network.S3.Util
 
-  
+source-repository head
+  type:     git
+  location: https://github.com/dmjio/s3-signer
