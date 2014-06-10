@@ -73,4 +73,70 @@ downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
           redirect' url 302
 ```
 ### Direct to S3 AJAX Uploads
-... examples in the works
+   - Configure S3 Bucket CORS Policy settings
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+    <CORSRule>
+        <AllowedOrigin>https://my-url-goes-here.com</AllowedOrigin>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedHeader>*</AllowedHeader>
+        </CORSRule>
+</CORSConfiguration>
+```
+   - Retrieve PUT Request URL via AJAX (see above code)
+
+```haskell
+type FileID = ByteString
+
+makeS3URL :: FileID -> IO S3URL
+makeS3URL fileId = generateS3URL credentials request
+  where
+    credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
+    request     = S3Request S3PUT "bucket-name" (fileId <> ".zip") 3 
+
+instance ToJSON S3URL
+
+getUploadURL :: Handler App (AuthManager App) ()
+getUploadURL = method POST $ currentUserId >>= maybe the404 handleDownload
+  where handleDownload _ = do
+          Just fileId <- getParam "fileId"
+          writeJSON =<< liftIO (makeS3URL fileId)
+```
+   - Retrieve URL on client and Create XHR object
+   - Embed file data
+   - Send upload request
+
+```javascript
+var xhr = new XMLHttpRequest();
+xhr.open('PUT', url /* s3-URL generated from server */);
+xhr.setRequestHeader('Content-Type', 'application/zip'); /* whatever http-content-type makes sense */
+xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+/* upload completion check */
+xhr.onreadystatechange = function(e) {
+    if (this.readyState === 4 && this.status === 200) 
+          console.log('upload complete');
+};
+
+/* Amazon gives you progress information on AJAX Uploads */
+xhr.upload.addEventListener("progress", function(evt) {
+       if (evt.lengthComputable) {
+          var v = (evt.loaded / evt.total) * 100,
+          val = Math.round(v) + '%',
+          console.log('Completed: ' + val);
+      }
+}, false);
+
+/* error handling */
+xhr.upload.addEventListener("error", function(evt) {
+   console.log("There has been an error :(");
+}, false);
+
+/* Commence upload */
+xhr.send(file); // file here is a blob from the file reader API
+
+-- https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+```
+
