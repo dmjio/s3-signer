@@ -161,8 +161,7 @@ xhr.send(file); // file here is a blob from the file reader API
   * It's 30% slower, and for all intents and purposes no more secure
     than HMAC-SHA1 (no known vulnerabilities exist for it, to my knowledge). Plain
     SHA1 is a different story. Collisions can be found, but there is
-    no known way to apply those to HMAC-SHA1, outside of brute-force.
-    Keep praying P ≠ NP.
+    no known way to apply those to HMAC-SHA1.
   * For the curious [SHA-1 is broken](https://www.schneier.com/blog/archives/2005/02/sha1_broken.html)
   * For the insecure (Scheiner quote from same article above)
 
