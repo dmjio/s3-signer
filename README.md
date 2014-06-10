@@ -6,7 +6,8 @@
  - Reduced Web Server load
  - Great for AJAX direct-to-s3 upload scenarios
 
-Documentation: [S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
+### Documentation:
+[S3 Query String Request Authentication](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#RESTAuthenticationQueryStringAuth)
 
 ### Implementation
 
