@@ -163,12 +163,14 @@ xhr.send(file); // file here is a blob from the file reader API
     SHA1 is a different story. Collisions can be found, but there is
     no known way to apply those to HMAC-SHA1.
   * For the curious [SHA-1 is broken](https://www.schneier.com/blog/archives/2005/02/sha1_broken.html)
-  * For the insecure (Schneier quote from same article above)
+  * For the paranoid (Schneier quote from same article above)
+  * [Relevant SO Post](http://stackoverflow.com/questions/3334524/hmac-security-is-the-security-of-the-hmac-based-on-sha-1-affected-by-the-colli)
 
 > This attack builds on previous attacks on SHA-0 and SHA-1, and is
 > a major, major cryptanalytic result. It pretty much puts a bullet
 > into SHA-1 as a hash function for digital signatures (although it
 > **doesn't** **affect** applications such as **HMAC** where collisions aren't important).
+
 
   
 
