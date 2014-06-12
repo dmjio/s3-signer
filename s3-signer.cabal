@@ -27,7 +27,7 @@ license-file:        LICENSE
 author:              David Johnson <djohnson.m@gmail.com>
 maintainer:          David Johnson <djohnson.m@gmail.com>
 copyright:           2014 David Johnson
-category:            Network
+category:            AWS, Network
 build-type:          Simple
 cabal-version:       >=1.18
 extra-source-files:  README.md        
