@@ -25,6 +25,7 @@ data S3Method = S3GET -- ^ GET Request
 
 data S3Request = S3Request {
       s3method        :: S3Method -- ^ Type of HTTP Method
+    , mimeType        :: ByteString -- ^ MIME Type
     , bucketName      :: ByteString -- ^ Name of Amazon S3 Bucket
     , objectName      :: ByteString -- ^ Name of Amazon S3 File
     , secondsToExpire :: Integer -- ^ Number of seconds until expiration
