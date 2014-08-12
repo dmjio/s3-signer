@@ -16,7 +16,7 @@ description:
         > main = print =<< generateS3URL credentials request
         >   where
         >     credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
-        >     request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- three seconds until expiration
+        >     request     = S3Request S3GET "application/extension" "bucket-name" "file-name.extension" 3 -- three seconds until expiration
         . 
         Result
         .
