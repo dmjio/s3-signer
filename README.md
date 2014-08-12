@@ -51,7 +51,7 @@ main :: IO ()
 main = print =<< generateS3URL credentials request
   where
      credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
-     request     = S3Request S3GET "bucket-name" "file-name.extension" 3 -- 3 secs until expired
+     request     = S3Request S3GET "application/zip" "bucket-name" "file-name.extension" 3 -- 3 secs until expired
 ```
 ### Result
 ```haskell
@@ -103,7 +103,7 @@ makeS3URL :: FileID -> IO S3URL
 makeS3URL fileId = generateS3URL credentials request
   where
     credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
-    request     = S3Request S3PUT "bucket-name" (fileId <> ".zip") 3 
+    request     = S3Request S3PUT "application/zip" "bucket-name" (fileId <> ".zip") 3 
 
 getUploadURL :: Handler App (AuthManager App) ()
 getUploadURL = method POST $ currentUserId >>= maybe the404 handleDownload
