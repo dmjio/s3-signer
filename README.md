@@ -70,7 +70,7 @@ makeS3URL :: FileID -> IO S3URL
 makeS3URL fileId = generateS3URL credentials request
   where
     credentials = S3Keys "<public-key-goes-here>" "<secret-key-goes-here>"
-    request     = S3Request S3GET "bucket-name" (fileId <> ".zip") 3 
+    request     = S3Request S3GET "application/zip" "bucket-name" (fileId <> ".zip") 3 
 
 downloadFile :: Handler App (AuthManager App) ()
 downloadFile = method POST $ currentUserId >>= maybe the404 handleDownload
