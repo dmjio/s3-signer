@@ -43,10 +43,11 @@ library
   default-language:    Haskell2010
   ghc-options:        -Wall
   exposed-modules:     Network.S3
-                     , Network.S3.Types
   other-modules:       Network.S3.Sign
                      , Network.S3.Time
                      , Network.S3.URL
+                     , Network.S3.Types
+
 
 source-repository head
   type:     git
