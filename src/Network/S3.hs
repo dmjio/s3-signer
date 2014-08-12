@@ -24,7 +24,7 @@ generateS3URL S3Keys{..} S3Request{..} = do
   time <- getExpirationTimeStamp secondsToExpire
   let url = case s3method of
               S3GET -> getURL bucketName objectName time
-              S3PUT -> putURL bucketName objectName mimeType time
+              S3PUT -> putURL bucketName objectName time mimeType 
       req = s3URL bucketName objectName publicKey time (sign secretKey url)
   return (S3URL req)
 
