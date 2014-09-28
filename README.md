@@ -1,4 +1,4 @@
-s3-signer
+s3-signer [![Hackage](https://img.shields.io/hackage/v/s3-signer.svg?style=flat)](https://hackage.haskell.org/package/s3-signer)
 ======
 s3-signer is intended to be an aid in building secure cloud-based services with
 AWS. This library generates cryptographically secure URLs that
