@@ -1,5 +1,11 @@
-s3-signer [![Hackage](https://img.shields.io/hackage/v/s3-signer.svg?style=flat)](https://hackage.haskell.org/package/s3-signer)
+s3-signer
 ======
+![Hackage](https://img.shields.io/hackage/v/s3-signer.svg)
+![Hackage Dependencies](https://img.shields.io/hackage-deps/v/s3-signer.svg)
+![Haskell Programming Language](https://img.shields.io/badge/language-Haskell-blue.svg)
+![BSD3 License](http://img.shields.io/badge/license-BSD3-brightgreen.svg)
+![Build Status](https://img.shields.io/circleci/project/dmjio/s3-signer.svg)
+
 s3-signer is intended to be an aid in building secure cloud-based services with
 AWS. This library generates cryptographically secure URLs that
 expire at a user-defined interval. These URLs can be used to offload
