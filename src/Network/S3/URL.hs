@@ -10,10 +10,12 @@ import           Data.Monoid
 import           Data.String
 
 -- | S3 Upload URL Template
-putURL :: (Monoid m, IsString m) => m -> m -> m -> m -> m
-putURL bucket object expires mimetype =
-    mconcat [ "PUT\n\n"
-            , mimetype 
+putURL :: (Monoid m, IsString m) => m -> m -> m -> m -> Maybe m -> m
+putURL bucket object expires mimetype md5 =
+    mconcat [ "PUT\n"
+            , maybe mempty id md5
+            , "\n"
+            , mimetype
             ,"\n"
             , expires
             , "\nx-amz-acl:public-read\n/"
