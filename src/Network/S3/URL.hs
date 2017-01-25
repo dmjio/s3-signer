@@ -18,7 +18,7 @@ putURL bucket object expires mimetype md5 =
             , mimetype
             ,"\n"
             , expires
-            , "\nx-amz-acl:public-read\n/"
+            , "\n"
             , bucket
             , "/"
             , object
