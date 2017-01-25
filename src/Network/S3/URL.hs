@@ -18,7 +18,7 @@ putURL bucket object expires mimetype md5 =
             , mimetype
             ,"\n"
             , expires
-            , "\n"
+            , "\n/"
             , bucket
             , "/"
             , object
