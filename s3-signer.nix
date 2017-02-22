@@ -5,7 +5,7 @@ mkDerivation {
   pname = "s3-signer";
   version = "0.3.0.0";
   src = ./.;
-  buildDepends = [
+  libraryHaskellDepends = [
     base base64-bytestring cryptohash http-types time utf8-string
   ];
   homepage = "https://github.com/dmjio/s3-signer";
