@@ -36,6 +36,7 @@ library
   build-depends:       base == 4.*
                      , base64-bytestring
                      , utf8-string
+                     , blaze-builder >= 0.4
                      , http-types
                      , cryptohash
                      , time
