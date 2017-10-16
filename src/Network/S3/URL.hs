@@ -2,14 +2,11 @@
 {-# LANGUAGE RecordWildCards #-}
 
 module Network.S3.URL
-    ( putURL
-    , getURL
-    , s3URL
-    , canonicalRequest
+    ( canonicalRequest
     ) where
 
-import           Data.String
-import           Data.ByteString.UTF8   (ByteString)
+import           Data.Time.Format         (formatTime, defaultTimeLocale)
+import           Data.ByteString.Char8    (pack)
 import           Blaze.ByteString.Builder (Builder, fromByteString)
 
 import qualified Network.HTTP.Types.URI as HTTP
@@ -19,51 +16,6 @@ import           Data.Monoid ((<>))
 import           Data.Maybe (fromMaybe)
 
 import           Network.S3.Types
-
--- | S3 Upload URL Template
-putURL :: (Monoid m, IsString m) => m -> m -> m -> m -> m
-putURL bucket object expires mimetype =
-    mconcat [ "PUT\n\n"
-            , mimetype
-            ,"\n"
-            , expires
-            , "\nx-amz-acl:public-read\n/"
-            , bucket
-            , "/"
-            , object
-            ]
-
--- | S3 Download URL Template
-getURL :: (Monoid m, IsString m) => m -> m -> m -> m
-getURL bucket object expires =
-    mconcat [ "GET\n\n\n"
-            , expires
-            , "\n/"
-            , bucket
-            , "/"
-            , object
-            ]
-
--- | Amazon S3 URL Template
-baseUrl :: (Monoid m, IsString m) => m -> m -> m
-baseUrl bucket object =
-    mconcat [ "https://"
-            , bucket
-            , ".s3.amazonaws.com/"
-            , object
-            ]
-
-s3URL :: (Monoid m, IsString m) =>
-           m -> m -> m -> m -> m -> m
-s3URL bucket object publicKey expires sig
-    = mconcat [ baseUrl bucket object
-              , "?AWSAccessKeyId="
-              , publicKey
-              , "&Expires="
-              , expires
-              , "&Signature="
-              , sig
-              ]
 
 sortS3Headers :: [S3Header] -> [S3Header]
 sortS3Headers = sortBy (compare `on` (fst . getS3Header))
@@ -77,10 +29,13 @@ canonicalRequest S3Request{..} =
     -- We MUST sort the parameters in the query string alphabetically by key name
     qs         = sortBy (compare `on` fst) queryString
     emptyHash  = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    bodyHash   = fromMaybe emptyHash contentHash
+    bodyHash   = fromMaybe emptyHash payloadHash
     hashHeader = s3Header "x-amz-content-sha256" bodyHash
     hostHeader = s3Header "host" (bucketName <> ".s3.amazonaws.com")
-    headers    = sortS3Headers (hostHeader : hashHeader : s3headers)
+    seconds    = pack (formatTime defaultTimeLocale "T%M%H%SZ" requestTime)
+    date       = pack (formatTime defaultTimeLocale "%Y%m%d" requestTime)
+    timeHeader = s3Header "x-amz-date" (date <> seconds)
+    headers    = sortS3Headers (timeHeader : hostHeader : hashHeader : s3headers)
     headerKeys = map (fst . getS3Header) headers
 
     httpMethod       = renderS3Method s3method
