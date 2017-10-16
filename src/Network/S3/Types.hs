@@ -15,6 +15,9 @@ module Network.S3.Types
 import           Data.ByteString.UTF8     (ByteString)
 import           GHC.Generics             (Generic)
 import           Data.Char8               (isSpace)
+import           Network.HTTP.Types       (Query)
+import           Data.Time.Clock          (UTCTime)
+
 import           Blaze.ByteString.Builder (Builder, fromByteString)
 import           Data.Monoid              (mconcat)
 import qualified Data.ByteString.Char8 as BS
@@ -39,11 +42,15 @@ data S3Method = S3GET    -- ^ GET Request
     deriving (Generic, Show)
 
 data S3Request = S3Request {
-      s3method        :: S3Method -- ^ Type of HTTP Method
-    , mimeType        :: ByteString -- ^ MIME Type
-    , bucketName      :: ByteString -- ^ Name of Amazon S3 Bucket
-    , objectName      :: ByteString -- ^ Name of Amazon S3 File
-    , secondsToExpire :: Integer -- ^ Number of seconds until expiration
+      s3method    :: S3Method -- ^ Type of HTTP Method
+    , mimeType    :: Maybe ByteString -- ^ MIME Type
+    , bucketName  :: ByteString -- ^ Name of Amazon S3 Bucket
+    , objectName  :: ByteString -- ^ Name of Amazon S3 File
+    , regionName  :: ByteString -- ^ Name of Amazon S3 Region
+    , queryString :: Query -- ^ Optional query string items
+    , requestTime :: UTCTime -- ^ Requests are valid within a 15 minute window of this timestamp
+    , payloadHash :: Maybe ByteString -- ^ SHA256 hash string of the payload
+    , s3headers   :: [S3Header] -- ^ Headers
     } deriving (Generic, Show)
 
 
@@ -59,3 +66,4 @@ s3Header header value = S3Header (lower, trimmed)
 s3HeaderBuilder :: S3Header -> Builder
 s3HeaderBuilder (S3Header (header,value)) =
   mconcat [fromByteString header, ":", fromByteString value, "\n"]
+
