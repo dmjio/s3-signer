@@ -52,3 +52,6 @@ s3URL bucket object publicKey expires sig
               , "&Signature="
               , sig
               ]
+
+sortS3Headers :: [S3Header] -> [S3Header]
+sortS3Headers = sortBy (compare `on` (fst . getS3Header))

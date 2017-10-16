@@ -18,6 +18,8 @@ import           Data.Char8               (isSpace)
 import           Network.HTTP.Types       (Query)
 import           Data.Time.Clock          (UTCTime)
 
+import           Data.Function            (on)
+import           Data.List                (sortBy)
 import           Blaze.ByteString.Builder (Builder, fromByteString)
 import           Data.Monoid              (mconcat)
 import qualified Data.ByteString.Char8 as BS
