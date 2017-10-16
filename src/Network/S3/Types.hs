@@ -19,8 +19,10 @@ data S3Keys = S3Keys {
     , secretKey :: ByteString  -- ^ AWS Private Key
     } deriving (Generic, Show)
 
-data S3Method = S3GET -- ^ GET Request
-              | S3PUT -- ^ PUT Request
+data S3Method = S3GET    -- ^ GET Request
+              | S3PUT    -- ^ PUT Request
+              | S3HEAD   -- ^ HEAD Request
+              | S3DELETE -- ^ DELETE Request
     deriving (Generic, Show)
 
 data S3Request = S3Request {
