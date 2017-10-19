@@ -6,6 +6,7 @@ module Network.S3.Types
     , S3Keys (..)
     , S3Method (..)
     , S3Request (..)
+    , S3SignedRequest (..)
     , S3Header
     , getS3Header
     , s3Header
@@ -53,6 +54,15 @@ data S3Request = S3Request {
     , requestTime :: UTCTime -- ^ Requests are valid within a 15 minute window of this timestamp
     , payloadHash :: Maybe ByteString -- ^ SHA256 hash string of the payload
     , s3headers   :: [S3Header] -- ^ Headers
+
+
+data S3SignedRequest = S3SignedRequest {
+      sigHeaders    :: [S3Header] -- ^ The headers included in the signed request
+    , sigDate       :: ByteString -- ^ The date you used in creating the signing key.
+    , sigCredential :: ByteString -- ^ <your-access-key-id>/<date>/<aws-region>/<aws-service>/aws4_request
+    , sigPolicy     :: ByteString -- ^ The Base64-encoded security policy that describes what is permitted in the request
+    , sigSignature  :: ByteString -- ^ (AWS Signature Version 4) The HMAC-SHA256 hash of the security policy.
+    , sigAlgorithm  :: ByteString -- ^ The signing algorithm used. For AWS Signature Version 4, the value is AWS4-HMAC-SHA256.
     } deriving (Generic, Show)
 
 
