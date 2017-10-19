@@ -2,8 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Network.S3.Types
-    ( S3URL (..)
-    , S3Keys (..)
+    ( S3Keys (..)
     , S3Method (..)
     , S3Request (..)
     , S3SignedRequest (..)
@@ -19,30 +18,28 @@ import           Data.Char8               (isSpace)
 import           Network.HTTP.Types       (Query)
 import           Data.Time.Clock          (UTCTime)
 
-import           Data.Function            (on)
-import           Data.List                (sortBy)
 import           Blaze.ByteString.Builder (Builder, fromByteString)
 import           Data.Monoid              (mconcat)
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.CaseInsensitive  as CI
 
+
 newtype S3Header = S3Header { getS3Header :: (ByteString, ByteString) }
   deriving (Generic, Show)
 
-newtype S3URL = S3URL {
-      signedRequest :: ByteString -- ^ Generated URL
-    } deriving (Generic, Show)
 
 data S3Keys = S3Keys {
       publicKey :: ByteString -- ^ AWS Public Key
     , secretKey :: ByteString  -- ^ AWS Private Key
     } deriving (Generic, Show)
 
+
 data S3Method = S3GET    -- ^ GET Request
               | S3PUT    -- ^ PUT Request
               | S3HEAD   -- ^ HEAD Request
               | S3DELETE -- ^ DELETE Request
     deriving (Generic, Show)
+
 
 data S3Request = S3Request {
       s3method    :: S3Method         -- ^ Type of HTTP Method
