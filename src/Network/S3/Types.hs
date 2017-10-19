@@ -2,8 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Network.S3.Types
-    ( S3Keys (..)
-    , S3Method (..)
+    ( S3Method (..)
     , S3Request (..)
     , S3SignedRequest (..)
     , S3Header
@@ -26,12 +25,6 @@ import qualified Data.CaseInsensitive  as CI
 
 newtype S3Header = S3Header { getS3Header :: (ByteString, ByteString) }
   deriving (Generic, Show)
-
-
-data S3Keys = S3Keys {
-      publicKey :: ByteString -- ^ AWS Public Key
-    , secretKey :: ByteString  -- ^ AWS Private Key
-    } deriving (Generic, Show)
 
 
 data S3Method = S3GET    -- ^ GET Request
