@@ -45,15 +45,16 @@ data S3Method = S3GET    -- ^ GET Request
     deriving (Generic, Show)
 
 data S3Request = S3Request {
-      s3method    :: S3Method -- ^ Type of HTTP Method
+      s3method    :: S3Method         -- ^ Type of HTTP Method
     , mimeType    :: Maybe ByteString -- ^ MIME Type
-    , bucketName  :: ByteString -- ^ Name of Amazon S3 Bucket
-    , objectName  :: ByteString -- ^ Name of Amazon S3 File
-    , regionName  :: ByteString -- ^ Name of Amazon S3 Region
-    , queryString :: Query -- ^ Optional query string items
-    , requestTime :: UTCTime -- ^ Requests are valid within a 15 minute window of this timestamp
+    , bucketName  :: ByteString       -- ^ Name of Amazon S3 Bucket
+    , objectName  :: ByteString       -- ^ Name of Amazon S3 File
+    , regionName  :: ByteString       -- ^ Name of Amazon S3 Region
+    , queryString :: Query            -- ^ Optional query string items
+    , requestTime :: UTCTime          -- ^ Requests are valid within a 15 minute window of this timestamp
     , payloadHash :: Maybe ByteString -- ^ SHA256 hash string of the payload
-    , s3headers   :: [S3Header] -- ^ Headers
+    , s3headers   :: [S3Header]       -- ^ Headers
+    } deriving (Generic, Show)
 
 
 data S3SignedRequest = S3SignedRequest {
