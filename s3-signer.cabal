@@ -31,6 +31,7 @@ category:            AWS, Network
 build-type:          Simple
 cabal-version:       >=1.18
 extra-source-files:  README.md
+tested-with: GHC == 8.0.2, GHC == 8.2.2, GHC == 8.4.1
 
 library internal
   build-depends: base == 4.*
