@@ -2,15 +2,10 @@
 
 module Main where
 
-import Prelude hiding (putStrLn)
-
-import Blaze.ByteString.Builder (toByteString)
-import Data.ByteString.Char8 (putStrLn)
 import Data.ByteString (ByteString)
 import Data.Time.Calendar (fromGregorian)
-import Data.Time.Clock (getCurrentTime, UTCTime(..))
+import Data.Time.Clock (UTCTime(..))
 import Network.S3
-import Network.S3.URL (canonicalRequest)
 import Network.S3.Sign (sign)
 
 main :: IO ()
