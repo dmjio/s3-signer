@@ -5,8 +5,9 @@ matrix:
   include:
     - env: GHCVER=ghc7102
     - env: GHCVER=ghc7103
-    - env: GHCVER=ghc801
     - env: GHCVER=ghc802
+    - env: GHCVER=ghc822
+    - env: GHCVER=ghc841
     - env: GHCVER=ghc742
     - env: GHCVER=ghc763
     - env: GHCVER=ghc783
@@ -19,6 +20,8 @@ matrix:
     - env: GHCVER=ghc784
     - env: GHCVER=ghc7102
     - env: GHCVER=ghc7103
+    - env: GHCVER=ghc802
+    - env: GHCVER=ghc841
     - env: GHCVER=ghcHEAD
 
 before_install:
