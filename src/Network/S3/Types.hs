@@ -13,14 +13,14 @@ module Network.S3.Types
 
 import           Data.ByteString.UTF8     (ByteString)
 import           GHC.Generics             (Generic)
-import           Data.Char8               (isSpace)
+import           Data.Char                (isSpace)
 import           Network.HTTP.Types       (Query)
 import           Data.Time.Clock          (UTCTime)
 
 import           Blaze.ByteString.Builder (Builder, fromByteString)
 import           Data.Monoid              (mconcat)
 import qualified Data.ByteString.Char8 as BS
-import qualified Data.CaseInsensitive  as CI
+import qualified Data.CaseInsensitive as CI
 
 
 newtype S3Header = S3Header { getS3Header :: (ByteString, ByteString) }

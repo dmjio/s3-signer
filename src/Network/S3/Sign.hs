@@ -1,8 +1,6 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE PackageImports #-}
 {-# LANGUAGE RecordWildCards #-}
--- TODO: (jb55) ^ remove PackageImports
 
 module Network.S3.Sign  ( sign ) where
 
@@ -16,8 +14,7 @@ import              Data.Time.Format         (formatTime, defaultTimeLocale)
 import              Network.S3.Types         (S3Request(..), S3SignedRequest(..))
 import              Network.S3.URL           (canonicalRequest)
 import              Data.Byteable            (toBytes)
-import "cryptohash" Crypto.Hash
--- TODO: (jb55) remove these package imports
+import              Crypto.Hash
 
 
 reqString :: S3Request -> Digest SHA256
@@ -48,9 +45,9 @@ sign key req utc =
       signingKey           = hmac_ dateRegionServiceKey "aws4_request"
 
       scope =
-        fromByteString date   <> "/" <>
-        fromByteString region <> "/" <>
-        service               <> "/aws4_request"
+        fromByteString date   <> fromByteString "/" <>
+        fromByteString region <> fromByteString "/" <>
+        fromByteString service <> fromByteString "/aws4_request"
 
       algorithm = "AWS4-HMAC-SHA256"
 

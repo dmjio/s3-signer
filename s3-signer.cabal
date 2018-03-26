@@ -35,7 +35,10 @@ extra-source-files:  README.md
 library
   build-depends:       base == 4.*
                      , base64-bytestring
+                     , bytestring
+                     , byteable
                      , utf8-string
+                     , case-insensitive >= 1.2
                      , blaze-builder >= 0.4
                      , http-types
                      , cryptohash
