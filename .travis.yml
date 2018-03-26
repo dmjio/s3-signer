@@ -26,4 +26,4 @@ before_install:
  - nix-channel --update
 
 script:
- - nix-build -A s3-signer --argstr compiler $GHCVER
+ - nix-build --argstr compiler $GHCVER
