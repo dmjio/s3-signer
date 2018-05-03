@@ -1,5 +1,5 @@
 name:                s3-signer
-version:             0.4.0.0
+version:             0.5.0.0
 homepage:            https://github.com/dmjio/s3-signer
 bug-reports:         https://github.com/dmjio/s3-signer/issues
 synopsis:            Pre-signed Amazon S3 URLs

@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "s3-signer";
-  version = "0.4.0.0";
+  version = "0.5.0.0";
   src = ./.;
   libraryHaskellDepends = [
     base base64-bytestring blaze-builder byteable bytestring
