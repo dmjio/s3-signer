@@ -1,6 +1,6 @@
 s3-signer
 ======
-![Hackage](https://img.shields.io/hackage/v/s3-signer.svg)
+[![Hackage](https://img.shields.io/hackage/v/s3-signer.svg)](https://hackage.haskell.org/package/s3-signer)
 ![Hackage Dependencies](https://img.shields.io/hackage-deps/v/s3-signer.svg)
 ![Haskell Programming Language](https://img.shields.io/badge/language-Haskell-blue.svg)
 ![BSD3 License](http://img.shields.io/badge/license-BSD3-brightgreen.svg)
