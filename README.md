@@ -4,7 +4,7 @@ s3-signer
 ![Hackage Dependencies](https://img.shields.io/hackage-deps/v/s3-signer.svg)
 ![Haskell Programming Language](https://img.shields.io/badge/language-Haskell-blue.svg)
 ![BSD3 License](http://img.shields.io/badge/license-BSD3-brightgreen.svg)
-![Build Status](https://api.travis-ci.org/dmjio/s3-signer.svg?branch=master)
+[![Build Status](https://travis-ci.org/dmjio/s3-signer.svg?branch=master)](https://travis-ci.org/dmjio/s3-signer)
 
 s3-signer is intended to be an aid in building secure cloud-based services with
 AWS. This library generates cryptographically secure URLs that
