@@ -6,12 +6,14 @@ module Network.S3
       generateS3URL
       -- * Types
     , module Network.S3.Types
+    , module Network.S3.URL
     ) where
 
 import           Data.ByteString (ByteString)
 import           Data.Time.Clock (getCurrentTime)
 import           Network.S3.Sign
 import           Network.S3.Types
+import           Network.S3.URL
 
 
 generateS3URL :: ByteString -- ^ Amazon S3 SecretAccessKey
