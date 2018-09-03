@@ -1,20 +1,10 @@
-{ compiler ? "ghc822" }:
-  let
-   config = {
-     packageOverrides = pkgs: with pkgs.haskell.lib; {
-       haskell = pkgs.haskell // {
-         packages = pkgs.haskell.packages // {
-            ${compiler} = pkgs.haskell.packages.${compiler}.override {
-              overrides = self: super: rec {
-                s3-signer = buildStrictly (self.callPackage ./s3-signer.nix { });
-              };
-           };
-         };
-      };
-   };
-};
+{ compiler ? "ghc843"
+, pkgs ? import <nixpkgs> {}
+}:
+let
+  overrides = self: super: {
+     s3-signer = self.callPackage ./s3-signer.nix {};
+  };
+  hPkgs = pkgs.haskell.packages.${compiler}.override { inherit overrides; };
 in
-  let
-    pkgs = import <nixpkgs> { inherit config; };
-    s3-signer = pkgs.haskell.packages.${compiler}.s3-signer;
-  in { inherit s3-signer; }
+  hPkgs.s3-signer
