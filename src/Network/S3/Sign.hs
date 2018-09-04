@@ -31,7 +31,7 @@ hmac_ key = toBytes . hmacGetDigest . hmacSHA256 key
 sign :: ByteString -> S3Request -> UTCTime -> S3SignedRequest
 sign key req utc =
   let
-      seconds   = BS.pack (formatTime defaultTimeLocale "T%M%H%SZ" utc)
+      seconds   = BS.pack (formatTime defaultTimeLocale "T%H%M%SZ" utc)
       date      = BS.pack (formatTime defaultTimeLocale "%Y%m%d" utc)
 
       timestamp = fromByteString (date <> seconds)

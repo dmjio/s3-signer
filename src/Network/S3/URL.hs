@@ -32,14 +32,14 @@ canonicalRequest S3Request{..} =
     bodyHash   = fromMaybe emptyHash payloadHash
     hashHeader = s3Header "x-amz-content-sha256" bodyHash
     hostHeader = s3Header "host" (bucketName <> ".s3.amazonaws.com")
-    seconds    = pack (formatTime defaultTimeLocale "T%M%H%SZ" requestTime)
+    seconds    = pack (formatTime defaultTimeLocale "T%H%M%SZ" requestTime)
     date       = pack (formatTime defaultTimeLocale "%Y%m%d" requestTime)
     timeHeader = s3Header "x-amz-date" (date <> seconds)
     headers    = sortS3Headers (timeHeader : hostHeader : hashHeader : s3headers)
     headerKeys = map (fst . getS3Header) headers
 
     httpMethod       = renderS3Method s3method
-    canonicalURI     = HTTP.urlEncodeBuilder False objectName
+    canonicalURI     = fromByteString objectName
     canonicalQS      = HTTP.renderQueryText False (HTTP.queryToQueryText qs)
     canonicalHeaders = foldMap s3HeaderBuilder headers
     signedHeaders    = foldMap fromByteString (intersperse ";" headerKeys)
