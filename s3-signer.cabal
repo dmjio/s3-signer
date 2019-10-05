@@ -44,6 +44,7 @@ library
                      , http-types
                      , cryptohash
                      , time
+                     , uri-bytestring
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:        -Wall
@@ -74,6 +75,7 @@ test-suite test-simple
                      , http-types
                      , cryptohash
                      , time
+                     , uri-bytestring
 
 source-repository head
   type:     git
