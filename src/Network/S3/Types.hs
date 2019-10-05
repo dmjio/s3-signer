@@ -9,6 +9,7 @@ module Network.S3.Types
     , getS3Header
     , s3Header
     , s3HeaderBuilder
+    , emptyHash
     ) where
 
 import           Data.ByteString.UTF8     (ByteString)
@@ -42,10 +43,16 @@ data S3Request = S3Request {
     , regionName  :: ByteString       -- ^ Name of Amazon S3 Region
     , queryString :: Query            -- ^ Optional query string items
     , requestTime :: UTCTime          -- ^ Requests are valid within a 15 minute window of this timestamp
-    , payloadHash :: Maybe ByteString -- ^ SHA256 hash string of the payload
+    , payloadHash :: Maybe ByteString -- ^ SHA256 hash string of the payload; Nothing if unsigned
     , s3headers   :: [S3Header]       -- ^ Headers
+    , expires     :: Int              -- ^ Expiration in seconds
+    , s3Key         :: ByteString
+    , s3Secret      :: ByteString
     } deriving (Generic, Show)
 
+-- | Hash of empty payload
+emptyHash :: ByteString
+emptyHash = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
 data S3SignedRequest = S3SignedRequest {
       sigHeaders    :: [S3Header] -- ^ The headers included in the signed request
