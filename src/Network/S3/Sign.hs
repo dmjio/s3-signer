@@ -2,20 +2,23 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module Network.S3.Sign  ( sign ) where
+module Network.S3.Sign  ( 
+    sign 
+  , algorithm
+  , mkScope
+  , mkTimestamp
+) where
 
 import qualified    Data.ByteString.Char8    as BS
 import qualified    Data.ByteString.Base64   as Base64
 import              Data.ByteString.UTF8     (ByteString)
-import              Blaze.ByteString.Builder (toByteString, fromByteString)
+import              Blaze.ByteString.Builder (toByteString, fromByteString, Builder)
 import              Data.Monoid              ((<>))
-import              Data.Time.Clock          (UTCTime)
 import              Data.Time.Format         (formatTime, defaultTimeLocale)
 import              Network.S3.Types         (S3Request(..), S3SignedRequest(..))
 import              Network.S3.URL           (canonicalRequest)
 import              Data.Byteable            (toBytes)
 import              Crypto.Hash
-
 
 reqString :: S3Request -> Digest SHA256
 reqString = hash . toByteString . canonicalRequest
@@ -27,29 +30,44 @@ hmac_ :: ByteString -> ByteString -> ByteString
 hmac_ key = toBytes . hmacGetDigest . hmacSHA256 key
 
 
--- | SHA1 Encrypted Signature
-sign :: ByteString -> S3Request -> UTCTime -> S3SignedRequest
-sign key req utc =
+mkScope :: S3Request -> Builder
+mkScope req = 
   let
-      seconds   = BS.pack (formatTime defaultTimeLocale "T%H%M%SZ" utc)
-      date      = BS.pack (formatTime defaultTimeLocale "%Y%m%d" utc)
+    date      = BS.pack (formatTime defaultTimeLocale "%Y%m%d" (requestTime req))
+    region    = regionName req
+    service   = "s3"
+  in
+    fromByteString date   <> fromByteString "/" <>
+    fromByteString region <> fromByteString "/" <>
+    fromByteString service <> fromByteString "/aws4_request"
 
-      timestamp = fromByteString (date <> seconds)
+algorithm :: Builder
+algorithm = "AWS4-HMAC-SHA256"
+
+mkTimestamp :: S3Request -> Builder
+mkTimestamp req = 
+  let
+    seconds   = BS.pack (formatTime defaultTimeLocale "T%H%M%SZ" (requestTime req))
+    date      = BS.pack (formatTime defaultTimeLocale "%Y%m%d" (requestTime req))
+  in
+    fromByteString (date <> seconds)
+
+-- | SHA1 Encrypted Signature
+sign :: S3Request -> S3SignedRequest
+sign req =
+  let
+      date      = BS.pack (formatTime defaultTimeLocale "%Y%m%d" (requestTime req))
+      timestamp = mkTimestamp req
       reqHash   = fromByteString (digestToHexByteString (reqString req))
       region    = regionName req
       service   = "s3"
 
-      dateKey              = hmac_ ("AWS4" <> key) date
+      dateKey              = hmac_ ("AWS4" <> s3Secret req) date
       dateRegionKey        = hmac_ dateKey region
       dateRegionServiceKey = hmac_ dateRegionKey service
       signingKey           = hmac_ dateRegionServiceKey "aws4_request"
 
-      scope =
-        fromByteString date   <> fromByteString "/" <>
-        fromByteString region <> fromByteString "/" <>
-        fromByteString service <> fromByteString "/aws4_request"
-
-      algorithm = "AWS4-HMAC-SHA256"
+      scope = mkScope req
 
       signingStringBuilder =
         algorithm <> "\n" <>
