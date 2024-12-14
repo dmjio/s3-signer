@@ -24,9 +24,9 @@ description:
 
 license:             BSD3
 license-file:        LICENSE
-author:              David Johnson <djohnson.m@gmail.com>, William Casarin <jb55@jb55.com>
-maintainer:          David Johnson <djohnson.m@gmail.com>
-copyright:           David Johnson (c) 2014-2018
+author:              David Johnson <code@dmj.io>, William Casarin <jb55@jb55.com>
+maintainer:          David Johnson <code@dmj.io>
+copyright:           David Johnson (c) 2014-2025
 category:            AWS, Network
 build-type:          Simple
 cabal-version:       2.0
